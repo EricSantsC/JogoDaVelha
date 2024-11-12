@@ -1,0 +1,206 @@
+#include <iostream>
+#include <stdlib.h>
+#include <time.h>
+#include <stdio.h>
+
+
+/* run this program using the console pauser or add your own getch, system("pause") or input loop */
+
+int main(int argc, char** argv) {
+//----------DECLARAÇÃO DAS VARIÁVEIS----------------------
+	char tabuleiro[3][3] = {
+		{' ', ' ', ' '},
+		{' ', ' ', ' '},
+		{' ', ' ', ' '}
+	};
+	//Variaveis de linha e coluna da jogada da maquina
+	int linM = -1, colM = -1;
+	//Variaveis de linha e coluna da jogada do usuario
+	int linH = -1, colH = -1;
+	//Variavel responsavel por continuar ou parar o jogo
+	char continuar = ' ';
+	//Contador de jogadas (maximo 9 jogadas)
+	int jogadaMax = 0;
+	//Contador para saber se bateu (tem que ter 3 'x' ou 'o')
+	int contadorBatida = 0;
+
+//-------------INICIALIZAÇÃO DO JOGO------------------------	
+	//Pega uma semente aleatoria para a biblioteca random
+	srand(time(0));
+	
+	//Monstrando o Tabuleiro
+	printf("\n\t===================");
+	printf("\n\t   JOGO DA VELHA   ");
+	printf("\n\t===================");
+	
+	for(int l=0; l<3; l++){
+		printf("\n\n\t");
+		for(int c=0; c<3; c++){
+			printf("[%c]\t", tabuleiro[l][c]);
+		}
+	}
+	
+	printf("\n");
+	printf("\n\t===================");
+	printf("\n\t   FACULDADE CDL   ");
+	printf("\n\t===================");
+	
+//-----------INICIALIZA O JOGO-------------------------
+	do{	
+ //----------JOGADA MAQUINA-------------------------
+		printf("\n\nJOGADA DA MAQUINA");
+		do{
+			linM = rand() % 3;
+			colM = rand() % 3;	
+		}while(tabuleiro[linM][colM] != ' ');
+		tabuleiro[linM][colM] = 'x';
+		
+		jogadaMax++;
+		//Limpa a tela
+		system("cls");
+		//Mostra a quantidade de jogadas realziadas
+		printf("\nJogadas: %d", jogadaMax);
+		
+		//Monstrando o Tabuleiro
+		printf("\n\t===================");
+		printf("\n\t   JOGO DA VELHA   ");
+		printf("\n\t===================");
+		
+		for(int l=0; l<3; l++){
+			printf("\n\n\t");
+			for(int c=0; c<3; c++){
+				printf("[%c]\t", tabuleiro[l][c]);
+			}
+		}
+		
+		printf("\n");
+		printf("\n\t===================");
+		printf("\n\t   FACULDADE CDL   ");
+		printf("\n\t===================");
+		
+		//TESTA DE A MAQUINA
+		//Testar se bateu nas linhas e colunas
+		//Teste de bateu na linha (linha fixa)
+		for(int i=0; i<3; i++){
+			//  tabuleiro[jogada][interador]
+			if (tabuleiro[linM][i] == 'x'){
+				contadorBatida++; //Soma para saber se acumulou 3 jogas
+			}
+		}
+		if(contadorBatida==3){
+			printf("\n\nMaquina Bateu!");
+			break;
+		}
+		else{
+			contadorBatida = 0;
+		}
+		
+		//Teste se bateu na coluna (coluna fixa)
+		for(int i=0; i<3; i++){
+			//  tabuleiro[interador][jogada]
+			if (tabuleiro[i][colM] == 'x'){
+				contadorBatida++; //Soma para saber se acumulou 3 jogas
+			}
+		}
+		if(contadorBatida==3){
+			printf("\n\nMaquina Bateu!");
+			break;
+		}
+		else{
+			contadorBatida = 0;
+		}
+		//Testar se bateu na diagonal
+		//Verifica se atingiu o numero max de jogada
+		if (jogadaMax==9){
+			printf("\n\nJogo deu VELHA!");
+			//Como abrir um gif do computador
+			break;
+		}
+//-----------JOGADA HUMANO---------------------		
+		
+		//Jogada do usuário
+		printf("\n\nSUA VEZ!");
+		do{
+			printf("\nDigite a sua jogada [linha]espaco[coluna]: ");
+			scanf("%d %d", &linH, &colH);
+		}while(tabuleiro[linH][colH] != ' ');
+		//Realizar a jogada no tabuleiro
+		tabuleiro[linH][colH] = 'o';
+		
+		//Incrementa mais uma jogada
+		jogadaMax++;
+		
+		
+		system("cls");
+		//Mostra a quantidade de jogadas realziadas
+		printf("\nJogadas: %d", jogadaMax);
+		//Monstrando o Tabuleiro
+		printf("\n\t===================");
+		printf("\n\t   JOGO DA VELHA   ");
+		printf("\n\t===================");
+		
+		for(int l=0; l<3; l++){
+			printf("\n\n\t");
+			for(int c=0; c<3; c++){
+				printf("[%c]\t", tabuleiro[l][c]);
+			}
+		}
+		
+		printf("\n");
+		printf("\n\t===================");
+		printf("\n\t   FACULDADE CDL   ");
+		printf("\n\t===================");
+		
+		printf("\n\nDeseja continuar [s] ou [n]?");
+		scanf(" %c", &continuar);
+		
+		//TESTA DE O HUMANO BATEU
+		//Testar se bateu nas linhas e colunas
+		//Teste de bateu na linha (linha fixa)
+		for(int i=0; i<3; i++){
+			//  tabuleiro[jogada][interador]
+			if (tabuleiro[linH][i] == 'o'){
+				contadorBatida++; //Soma para saber se acumulou 3 jogas
+			}
+		}
+		if(contadorBatida==3){
+			printf("\n\nHomem Bateu!");
+			break;
+		}
+		else{
+			contadorBatida = 0;
+		}
+		//Teste se bateu na coluna (coluna fixa)
+		for(int i=0; i<3; i++){
+			//  tabuleiro[interador][jogada]
+			if (tabuleiro[i][colH] == 'o'){
+				contadorBatida++; //Soma para saber se acumulou 3 jogas
+			}
+		}
+		if(contadorBatida==3){
+			printf("\n\nHomem Bateu!");
+			break;
+		}
+		else{
+			contadorBatida = 0;
+		}
+		
+		//Verifica se atingiu o numero max de jogada
+		if (jogadaMax==9){
+			printf("\n\nJogo deu VELHA!");
+			
+			//Como abrir um gif do computador
+			break;
+		}
+		
+	}while((continuar=='s')or(jogadaMax<9));
+	
+	
+	
+	return 0;
+}
+
+
+
+
+
